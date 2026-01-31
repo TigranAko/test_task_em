@@ -2,11 +2,13 @@ from sqlalchemy import create_engine, event
 from sqlalchemy.orm import sessionmaker, Session, DeclarativeBase
 from sqlalchemy.pool import StaticPool
 
+
 url_db = "sqlite:///database.db"  # при необходимости модно поменять на постгрес
 engine = create_engine(
     url_db,
     connect_args={"check_same_thread": False},  # для Sqlite
     poolclass=StaticPool,  # для sqlite
+    echo=True,
 )
 
 
@@ -26,6 +28,17 @@ LocalSession = sessionmaker(autoflush=False, autocommit=False, bind=engine)
 
 class BaseModel(DeclarativeBase):
     pass
+
+
+def create_tables():
+    from models.access_roles_rules import AccessRolesRules
+    from models.business_elements import BusinessElement
+    from models.roles import Role
+    from models.sessions import Session as SessionModel
+    from models.users import User
+
+    print(AccessRolesRules, BusinessElement, Role, SessionModel, User)
+    BaseModel.metadata.create_all(engine)
 
 
 def get_session():

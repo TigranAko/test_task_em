@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from db import BaseModel
+from db.db import BaseModel
 from sqlalchemy import String, ForeignKey
 from datetime import datetime, timedelta
 from typing import TYPE_CHECKING
@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 class Session(BaseModel):
     __tablename__ = "sessions"
 
-    id: Mapped[str] = mapped_column(primary_key=True, autoincrement=True)
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     user: Mapped["User"] = relationship(back_populates="sessions")
 

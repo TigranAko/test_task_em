@@ -1,5 +1,5 @@
 from sqlalchemy.orm import mapped_column, Mapped, relationship
-from db import BaseModel
+from db.db import BaseModel
 from sqlalchemy import String, ForeignKey
 from typing import TYPE_CHECKING
 
