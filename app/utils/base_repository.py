@@ -19,7 +19,7 @@ class SQLAlchemyRepository:
     def find_all(self):
         stmt = select(self.model)  # TODO: Добавить фильтрацию и пагинацию
         result = self.session.execute(stmt)
-        answer = result.all()
+        answer = result.scalars().all()
         return answer
 
     def find_one(self, entity_id):
