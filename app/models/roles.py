@@ -12,7 +12,7 @@ class Role(BaseModel):
     __tablename__ = "roles"
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(
-        String()
+        String(), unique=True
     )  # (админ, менеджер, пользователь, гость);
 
     users: Mapped[list["User"]] = relationship(back_populates="role")

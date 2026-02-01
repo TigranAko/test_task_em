@@ -1,6 +1,6 @@
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 from db.db import BaseModel
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, UniqueConstraint
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -10,6 +10,9 @@ if TYPE_CHECKING:
 
 class AccessRolesRules(BaseModel):
     __tablename__ = "access_roles_rules"
+    __table_args__ = (
+        UniqueConstraint("role_id", "element_id", name="uq_role_element"),
+    )
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     role_id: Mapped[int] = mapped_column(ForeignKey("roles.id"))
