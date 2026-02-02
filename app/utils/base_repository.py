@@ -25,7 +25,7 @@ class SQLAlchemyRepository:
     def find_one(self, entity_id):
         stmt = select(self.model).where(self.model.id == entity_id)
         result = self.session.execute(stmt)
-        answer = result.one_or_none()
+        answer = result.scalar_one_or_none()
         return answer
 
     def edit_one(self, entity_id, entity):

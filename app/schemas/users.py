@@ -9,8 +9,8 @@ class UserBase(BaseModel):
 
 
 class UserLogin(BaseModel):
-    firstname: str
-    email: EmailStr
+    email: EmailStr  # or username
+    password: str
 
 
 class UserResponse(UserBase):
