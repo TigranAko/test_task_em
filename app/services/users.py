@@ -4,6 +4,9 @@ from repositories.users import UserRepository
 from schemas.users import UserCreate
 from fastapi import Depends, HTTPException
 from services.roles import RoleService
+from passlib.context import CryptContext
+
+pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
 
 
 class UserService:
@@ -24,7 +27,7 @@ class UserService:
         data.pop("password")
         data.pop("password_replay")
         print(data)
-        password_hash = password  # TODO: hesh function
+        password_hash = self._create_password_hash(password)
         data["password_hash"] = password_hash
         data["role_id"] = role_id
         data["is_active"] = True
@@ -39,6 +42,10 @@ class UserService:
     def logout(self): ...
 
     def update(self): ...
+
+    def _create_password_hash(self, password: str) -> str:
+        password = password.encode("utf-8")
+        return pwd_context.hash(password)
 
 
 def get_user_service(session: Session = Depends(get_session)):
