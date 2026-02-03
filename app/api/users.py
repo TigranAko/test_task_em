@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Response, Request, status
 from schemas.users import UserCreate, UserLogin, UserUpdate, UserRead
 from services.users import UserService, get_user_service
+from services.permission_service import check_permission
 
 router = APIRouter(tags=["User"], prefix="/user")
 
@@ -71,3 +72,11 @@ async def delete_profile(
         return response_obj
 
     return response
+
+
+@router.get("/all")
+async def get_all_users(
+    current_user: UserRead = Depends(check_permission("users", "read_all")),
+    service: UserService = Depends(get_user_service),
+):
+    return service.repo.find_all()

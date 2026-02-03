@@ -42,6 +42,7 @@ def create_tables():
     from repositories.roles import RoleRepository
     from repositories.business_elements import BusinessElementRepository
     from repositories.access_roles_rules import AccessRolesRulesRepository
+    from services.users import get_user_service
 
     print(AccessRolesRules, BusinessElement, Role, SessionModel, User)
     BaseModel.metadata.create_all(engine)
@@ -67,12 +68,14 @@ def create_tables():
         try:
             user_repo = UserRepository(db)
             role_repo = RoleRepository(db)
+            user_service = get_user_service()
 
             admin = {
                 "firstname": "admin",
                 "email": "admin@example.com",
-                "password_hash": "admin",
+                "password_hash": user_service._hash_password("admin"),
                 "role_id": role_repo.get_id("admin"),
+                "is_active": True,
             }
             user_repo.add_one(admin)
         except IntegrityError as e:
