@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from .user import User
+    from .users import User
 
 
 class Session(BaseModel):
