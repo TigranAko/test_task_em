@@ -1,6 +1,6 @@
 import bcrypt
 import jwt
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, UTC
 from typing import Optional, Dict, Any
 from db.db import get_session
 from sqlalchemy.orm import Session
@@ -159,9 +159,9 @@ class UserService:
 
     def _create_token(self, user_id: int) -> str:
         expires_delta = timedelta(hours=self.token_expire_hours)
-        expire = datetime.utcnow() + expires_delta
+        expire = datetime.now(UTC) + expires_delta
 
-        to_encode = {"sub": str(user_id), "exp": expire, "iat": datetime.utcnow()}
+        to_encode = {"sub": str(user_id), "exp": expire, "iat": datetime.now(UTC)}
 
         encoded_jwt = jwt.encode(to_encode, self.secret_key, algorithm=self.algorithm)
         return encoded_jwt
