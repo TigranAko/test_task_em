@@ -9,7 +9,7 @@ engine = create_engine(
     url_db,
     connect_args={"check_same_thread": False},  # для Sqlite
     poolclass=StaticPool,  # для sqlite
-    echo=True,
+    echo=False,  # True для отладки
 )
 
 
@@ -32,6 +32,7 @@ class BaseModel(DeclarativeBase):
 
 
 def create_tables():
+    # Таблицы должны создаваться с помощью alembic
     from models.access_roles_rules import AccessRolesRules
     from models.business_elements import BusinessElement
     from models.roles import Role
@@ -44,7 +45,8 @@ def create_tables():
     from repositories.access_roles_rules import AccessRolesRulesRepository
     from services.users import get_user_service
 
-    print(AccessRolesRules, BusinessElement, Role, SessionModel, User)
+    # Чтобы модели создавались
+    (AccessRolesRules, BusinessElement, Role, SessionModel, User)
     BaseModel.metadata.create_all(engine)
 
     warnings = []
@@ -180,6 +182,7 @@ def create_tables():
         db.commit()
     if warnings:
         if len(warnings) != 16:
+            # Принты лучше поменять на логи если они нужны
             print("Предупреждения при заполнении таблиц:")
             for warning in warnings:
                 print(" " * 4, warning, sep="")

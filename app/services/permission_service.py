@@ -18,24 +18,18 @@ class PermissionService:
         # Получаем пользователя
         user_repo = UserRepository(self.db)
         user = user_repo.find_one(user_id)
-        print(user)
-        print(user.role_id)
-        print(user.role.name)
         if not user or not user.role_id:
             return False
 
         # Получаем элемент
         element_repo = BusinessElementRepository(self.db)
         biz_element_id = element_repo.get_id(element)
-        print(biz_element_id)
         if not biz_element_id:
             return False
 
         # Получаем правило
         rule_repo = AccessRolesRulesRepository(self.db)
         rule = rule_repo.get_rule(user.role_id, biz_element_id)
-        print(rule, rule.read_all_permission)
-        print(rule.role.name)
         if not rule:
             return False
 
