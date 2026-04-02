@@ -3,11 +3,13 @@ from contextlib import asynccontextmanager
 from db.db import create_tables
 from uvicorn import run
 from api.users import router as user_router
+from seed import create_all
 
 
 @asynccontextmanager
 async def lifespan(app):
     create_tables()
+    create_all()
     yield
 
 
