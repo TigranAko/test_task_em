@@ -4,8 +4,8 @@ from sqlalchemy import String, ForeignKey
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
+    # from .sessions import Session
     from .roles import Role
-    from .sessions import Session
 
 
 class User(BaseModel):
@@ -21,4 +21,6 @@ class User(BaseModel):
     role_id: Mapped[int] = mapped_column(ForeignKey("roles.id"))
     role: Mapped["Role"] = relationship(back_populates="users")
 
-    sessions: Mapped[list["Session"]] = relationship(back_populates="user")
+    # sessions: Mapped[list["Session"]] = relationship(
+    #     "sessions.Session", back_populates="user"
+    # )

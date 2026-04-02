@@ -1,3 +1,5 @@
+# Этот код не используется
+"""
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from db.db import BaseModel
 from sqlalchemy import String, ForeignKey
@@ -21,3 +23,4 @@ class Session(BaseModel):
         default=lambda: datetime.now(UTC) + timedelta(days=7)
     )
     is_active: Mapped[bool] = mapped_column(default=True)
+"""

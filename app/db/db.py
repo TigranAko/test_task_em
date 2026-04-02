@@ -36,7 +36,6 @@ def create_tables():
     from models.access_roles_rules import AccessRolesRules
     from models.business_elements import BusinessElement
     from models.roles import Role
-    from models.sessions import Session as SessionModel
     from models.users import User
 
     from repositories.users import UserRepository
@@ -46,7 +45,7 @@ def create_tables():
     from services.users import get_user_service
 
     # Чтобы модели создавались
-    (AccessRolesRules, BusinessElement, Role, SessionModel, User)
+    (AccessRolesRules, BusinessElement, Role, User)
     BaseModel.metadata.create_all(engine)
 
     warnings = []
