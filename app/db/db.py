@@ -1,17 +1,17 @@
 from sqlalchemy import create_engine, event
 from sqlalchemy.orm import sessionmaker, Session, DeclarativeBase
 from sqlalchemy.pool import StaticPool
+from utils.config import config_db
 
-
-url_db = "sqlite:///database.db"  # при необходимости модно поменять на постгрес
 engine = create_engine(
-    url_db,
+    config_db.db_url,
     connect_args={"check_same_thread": False},  # для Sqlite
     poolclass=StaticPool,  # для sqlite
     echo=False,  # True для отладки
 )
 
 
+### Для sqlite:
 @event.listens_for(engine, "connect")
 def enable_sqlite_fk(dbapi_connection, _):
     """
@@ -21,6 +21,7 @@ def enable_sqlite_fk(dbapi_connection, _):
     cursor = dbapi_connection.cursor()
     cursor.execute("PRAGMA foreign_keys=ON")  # Включаем поддержку FK
     cursor.close()
+    ###
 
 
 LocalSession = sessionmaker(autoflush=False, autocommit=False, bind=engine)
